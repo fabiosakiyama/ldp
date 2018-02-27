@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:application-config.properties</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true" />
+        <property name="properties">
+            <props>
+                <!-- Authorization -->
+                <prop key="authorization.status">DISABLED</prop>
+                <prop key="authorization.allowAuthBySameUser">true</prop>
+
+                <!-- Misc -->
+                <prop key="upperCase">false</prop>
+
+                <!-- Hibernate -->
+                <!-- H2 NAO AFETA A PORRA DO REFDB / EH NO POM DO CORE -->
+                <!-- <prop key="hibernate.schemaUpdate">false</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="database.hibernate.default_schema">public</prop>
+                <prop key="database.hibernate.dialect">jmine.tec.persist.environment.db.dialect.H2SequenceDialect</prop>
+                
+                <prop key="datasource.driverClassName">org.h2.Driver</prop>
+                <prop key="datasource.url">jdbc:h2:mem:loadeddb;LOCK_MODE=3;MVCC=TRUE;AUTO_SERVER=TRUE;LOG=0</prop>
+                <prop key="datasource.username">sa</prop>
+                <prop key="datasource.password"></prop>
+                <prop key="datasource.maxWait">0</prop>
+                <prop key="datasource.maxActive">40</prop>
+                <prop key="datasource.initialSize">4</prop>
+                <prop key="datasource.validationQuery">SELECT 1</prop>
+                <prop key="datasource.testOnBorrow">true</prop>
+                <prop key="datasource.testOnReturn">true</prop> -->
+                
+                 <!-- POSTGRESQL NAO AFETA A PORRA DO REFDB / EH NO POM DO CORE --> 
+                <prop key="hibernate.schemaUpdate">false</prop>
+                <prop key="hibernate.show_sql">false</prop>
+                <prop key="database.hibernate.default_schema">public</prop>
+                <prop key="database.hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+                <prop key="datasource.driverClassName">org.postgresql.Driver</prop>
+                <prop key="datasource.url">jdbc:postgresql://localhost:5432/paleta</prop>
+                <prop key="datasource.username">paleta</prop>
+                <prop key="datasource.password">fgsfgs</prop>
+                <prop key="datasource.maxWait">0</prop>
+                <prop key="datasource.maxActive">40</prop>
+                <prop key="datasource.initialSize">4</prop>
+                <prop key="datasource.validationQuery">SELECT 1</prop>
+                <prop key="datasource.testOnBorrow">true</prop>
+                <prop key="datasource.testOnReturn">true</prop> 
+                
+                <!-- MYSQL -->
+                <!-- 
+                <prop key="hibernate.schemaUpdate">false</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="database.hibernate.default_schema">public</prop>
+                <prop key="database.hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                
+                <prop key="datasource.driverClassName">com.mysql.jdbc.Driver</prop>
+                <prop key="datasource.url">jdbc:mysql://localhost:3306/paleta</prop>
+                <prop key="datasource.username">root</prop>
+                <prop key="datasource.password">fgs123</prop>
+                <prop key="datasource.maxWait">0</prop>
+                <prop key="datasource.maxActive">40</prop>
+                <prop key="datasource.initialSize">4</prop>
+                <prop key="datasource.validationQuery">SELECT 1</prop>
+                <prop key="datasource.testOnBorrow">true</prop>
+                <prop key="datasource.testOnReturn">true</prop> -->
+            </props>
+        </property>
+    </bean>
+
+   <bean id="securityManager" class="jmine.tec.web.servlet.security.WebUserSecurityManager">
+        <property name="securityService" ref="securityService"/>
+        <property name="authenticationManager" ref="authenticationManager"/>
+    </bean>
+    
+    <bean id="authenticationManager" class="jmine.tec.security.impl.authentication.bcrypt.BCryptAuthenticationManager">
+        <property name="daoFactory" ref="daoFactory"/>
+        <property name="hotPersister" ref="hotPersister"/>
+        <property name="securityService" ref="securityService"/>
+        <property name="stretching" value="6"/>
+        <property name="saltLog2Iterations" value="10"/>
+        <!-- The following option is true by default in order to ease migrations from an MD5 base. We
+        strongly discourage the use of true in the following option (especially in production
+        environments) since it causes the BCryptAuthenticationManager to be complacent with a password
+        hash algorithm that is relatively easy to crack. -->
+        <property name="migrateFromMD5" value="true"/>
+        <property name="loginErrorMaxCount" value="3"/>
+        <property name="loginErrorMaxLengthMinutes" value="2"/>
+        <property name="loginErrorPenaltyMinutes" value="10"/>
+        <property name="loginErrorShowMessageWhenBlocked" value="true"/>
+        <property name="passwdComplexityMinimumLength" value="6"/>
+        <property name="passwdComplexityBothCases" value="false"/>
+        <property name="passwdComplexitySpecialChars" value="false"/>
+        <property name="passwdComplexityNumbers" value="true"/>
+        <property name="passwdDaysBetweenExpirations" value="0"/>
+        <property name="passwdDoNotRepeatPast" value="6"/>
+    </bean>
+
+    <bean id="transactionManager" class="jmine.tec.persist.impl.spring.transaction.PartitionTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" lazy-init="true">
+        <property name="driverClassName" value="${datasource.driverClassName}" />
+        <property name="url" value="${datasource.url}" />
+        <property name="username" value="${datasource.username}" />
+        <property name="password" value="${datasource.password}" />
+        <property name="maxWait" value="${datasource.maxWait}" />
+        <property name="maxActive" value="${datasource.maxActive}" />
+        <property name="initialSize" value="${datasource.initialSize}" />
+        <property name="validationQuery" value="${datasource.validationQuery}" />
+        <property name="testOnBorrow" value="${datasource.testOnBorrow}" />
+        <property name="testOnReturn" value="${datasource.testOnReturn}" />
+    </bean>
+
+</beans>

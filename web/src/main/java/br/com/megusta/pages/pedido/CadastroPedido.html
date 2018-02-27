@@ -1,0 +1,54 @@
+<html>
+<body>
+	<wicket:extend>
+		<div class="feedback" wicket:id="feedback">feedback here</div>
+
+		<form wicket:id="mainForm">
+
+			<div class="results_header_page">
+				<h4 class="pull-left">Sorvetes</h4>
+			</div>
+
+			<div class="results_container">
+				<table class="results_table table table-hover table-bordered">
+					<thead class="thead_results">
+						<tr>
+							<th><span>Sabor</span></th>
+							<th><span>Quantidade A Comprar</span></th>
+							<th><span>Quantidade Disponível</span></th>
+							<th><span>Preço</span></th>
+						</tr>
+					</thead>
+
+					<tbody class="tbody_results">
+						<tr wicket:id="sorvetes">
+							<td><span wicket:id="listSabor" /></td>
+							<td><span wicket:id="listQuantidadeAComprar" /></td>
+							<td><span wicket:id="listQuantidade" /></td>
+							<td><span wicket:id="listPreco" /></td>
+						</tr>
+					</tbody>
+				</table>
+				<span>Resumo: </span><label wicket:id="resumo"></label><br>
+				<span>Quantidade de cobertura + topping: </span><input type="text" wicket:id="qtdCobertura"></input><br>
+				<input type="text" wicket:id="qtdTopping"></input>
+				<span>Valor do pedido: <strong class="required">*</strong> </span><label wicket:id="valorTotal"></label><br>
+				<span>Desconto: </span><input type="text" wicket:id="desconto"></input><br>
+				<span>Forma de pagamento:  <strong class="required">*</strong></span><select name="formaPagamento" wicket:id="formaPagamento"/><br>
+				<span>Valor recebido: <strong class="required">*</strong></span><input type="text" wicket:id="valorReceber"></input><br> 
+				<span>Troco: </span><label wicket:id="troco"></label>
+			</div>
+			
+			<div class="in">
+				<div class="buttons text-right">
+					<span>Entrega? </span><input type="checkbox" wicket:id="entrega" />
+					<span>Imprime? </span><input type="checkbox" wicket:id="checkImprime" />
+					<span>Em Aberto? </span><input type="checkbox" wicket:id="checkEmAberto" />
+					<input name="fechar" type="button" class="btn btn-small" id="fecharPedido" value="Fechar Pedido" wicket:id="fecharPedido" />
+					<input name="calcular" type="button" class="btn btn-small" id="calcularPedido" value="Calcular Pedido" wicket:id="calcularPedido" />
+				</div>
+			</div>
+		</form>
+	</wicket:extend>
+</body>
+</html>

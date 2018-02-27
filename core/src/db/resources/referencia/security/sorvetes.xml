@@ -1,0 +1,19 @@
+<importacao>
+    <services name="Sorvetes">
+        <service name="Sorvete" action="INCLUIR">
+            <param name="Sabor">Morango com Leite Condensado</param>
+            <param name="Preço">5.5</param>
+            <param name="Quantidade">100</param>
+        </service>
+         <service name="Sorvete" action="INCLUIR">
+            <param name="Sabor">Açai com Banana</param>
+            <param name="Preço">5.5</param>
+            <param name="Quantidade">80</param>
+        </service>
+         <service name="Sorvete" action="INCLUIR">
+            <param name="Sabor">Brigadeiro</param>
+            <param name="Preço">5.5</param>
+            <param name="Quantidade">20</param>
+        </service>
+    </services>
+</importacao>
