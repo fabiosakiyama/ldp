@@ -1,1 +1,1 @@
-web: java -jar --port $PORT target/*.war
+web: java -cp target/classes/:target/dependency/* target/*.war
