@@ -19,6 +19,11 @@ public class PedidoPersisterListener extends AbstractPersisterListener<Pedido> {
 	}
 	
 	@Override
+	protected void afterUpdate(Pedido bean) {
+		new DecrementarQuantidadeSorvetesAction().act(bean);
+	}
+	
+	@Override
 	public void afterRemove(Pedido bean) {
 		new IncrementarQuantidadeSorvetesAction().act(bean);
 	}
